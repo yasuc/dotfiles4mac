@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOT_FILES=(.dir_colors .gdbinit .gitconfig .gitignore .inputrc .zsh .zshrc)
+DOT_FILES=(.dir_colors .gdbinit .gitconfig .gitignore .inputrc .zsh .zshrc .secret)
 
 for file in ${DOT_FILES[@]}; do
 	rm $HOME/$file
