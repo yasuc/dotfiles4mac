@@ -314,7 +314,7 @@ export FZF_ALT_C_OPTS="+s -e"
 
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-source ~/fzf-git.sh/fzf-git.sh
+[ -f ~/fzf-git.sh/fzf-git.sh ] && source ~/fzf-git.sh/fzf-git.sh
 eval "$(zoxide init zsh)"
 
 # thefuck alias
