@@ -18,9 +18,10 @@
 	editor = vim
 	quotepath = false
 	excludesfile = /Users/yasuc/.gitignore_global
-  pager = ""
+  pager = delta
 [merge]
-	tool = vimdiff
+#	tool = vimdiff
+  conflictstyle = diff3
 [alias]
 	st = status
 	sh = show
@@ -112,7 +113,7 @@
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+#	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [init]
 	defaultBranch = main
@@ -131,3 +132,16 @@
 	log = false
   diff = false
   blame = false
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    side-by-side = true
+[diff]
+  colorMoved = default
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

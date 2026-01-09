@@ -34,7 +34,7 @@ fi
 [ -f $DOTFILES/.zshrc.local ] && source $DOTFILES/.zshrc.local
 
 #proxyの設定
-proxy
+#proxy
 
 ## Backspace key
 #
@@ -45,9 +45,7 @@ bindkey "^?" backward-delete-char
 #
 DEFAULT=$'%{\e[1;0m%}'
 RESET="%{${reset_color}%}"
-#GREEN=$'%{\e[1;32m%}'
 GREEN="%{${fg[green]}%}"
-#BLUE=$'%{\e[1;35m%}'
 BLUE="%{${fg[blue]}%}"
 RED="%{${fg[red]}%}"
 CYAN="%{${fg[cyan]}%}"
@@ -101,7 +99,7 @@ e_BLUE=`echo -e "¥033[1;36m"`
 
 ## zsh editor
 #
-#autoload zed
+autoload zed
 
 ## Prediction configuration
 #
@@ -178,6 +176,7 @@ export EDITOR=nvim
 export PATH=/usr/bin:/bin:/sbin:/usr/sbin:$PATH
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=$PATH:$HOME/local/bin:$HOME/bin
+export PATH="/snap/bin:$PATH"
 export MANPATH=$MANPATH:/opt/local/man:/usr/local/share/man
 
 expand-to-home-or-insert () {
@@ -202,12 +201,12 @@ WSL*)
     IP=`ip route | grep 'default via' | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'`
     alias start='/mnt/c/Windows/explorer.exe'
     alias explorer='/mnt/c/Windows/explorer.exe'
-    alias code='/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin/code'
+    #alias code='/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin/code'
+    alias code='/mnt/c/Users/yasuc/Appdata/Local/Programs/Microsoft\ VS\ Code/bin/code'
 #     export DISPLAY=${IP}:0.0
     [ -f $DOTFILES/.zshrc.linux ] && source $DOTFILES/.zshrc.linux
     ;;
 Linux*)
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     [ -f $DOTFILES/.zshrc.linux ] && source $DOTFILES/.zshrc.linux
     ;;
 Cygwin*)
@@ -273,11 +272,7 @@ export LIBGL_ALWAYS_INDIRECT=1
 export THEOS=~/theos
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+eval "$(fzf --zsh)"
 
 ## Completion configuration
 #
@@ -290,34 +285,24 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+if [ -n "$NVIM" ] || [ -n "$NVIM_LOG_FILE" ] || [ -n "$VSCODE_INJECTION" ]; then
+   eval "$(starship init zsh)"
+    alias c=clear
+else
+   eval "$(starship init zsh)"
+fi
+
 eval "$(sheldon source)"
 
 autoload -U compinit
 compinit -u
 
+eval "$(sheldon source)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-
-# bun completions
-[ -s "/Users/yasuc/.bun/_bun" ] && source "/Users/yasuc/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -329,30 +314,34 @@ export FZF_ALT_C_OPTS="+s -e"
 
 export HOMEBREW_NO_AUTO_UPDATE=1
 
+source ~/fzf-git.sh/fzf-git.sh
 eval "$(zoxide init zsh)"
 
+# thefuck alias
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)
 
-# . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
-alias nvim-kick="NVIM_APPNAME=kickstart nvim"
-alias nvim-chad="NVIM_APPNAME=NvChad nvim"
-alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+# alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+# alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+# alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+# alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+#
+# export NVIM_APPNAME=LazyVim
+# export NVM_DIR="$HOME/.nvm"
 
-export NVIM_APPNAME=LazyVim
-
-function nvims() {
-  items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
-  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config >> " --height=~50% --layout=reverse --border --exit-0)
-  if [[ -z $config ]]; then
-    echo "Nothing selected"
-    return 0
-  elif [[ $config == "default" ]]; then
-    config=""
-  fi
-  NVIM_APPNAME=$config nvim $@
-}
-
+# function nvims() {
+#   items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
+#   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config >> " --height=~50% --layout=reverse --border --exit-0)
+#   if [[ -z $config ]]; then
+#     echo "Nothing selected"
+#     return 0
+#   elif [[ $config == "default" ]]; then
+#     config=""
+#   fi
+#   NVIM_APPNAME=$config nvim $@
+# }
+#
 
 # pnpm
 export PNPM_HOME="/Users/yasuc/Library/pnpm"
@@ -379,54 +368,29 @@ function y() {
 
 if [ -n "$NVIM" ]; then
    eval "$(starship init zsh)"
-    # eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/kali.omp.json)"
 else
    eval "$(starship init zsh)"
-    # eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/night-owl.omp.json)"
 fi
 
-# function update_prompt_based_on_columns() {
-#     if [[ $COLUMNS -lt 100 ]]; then
-#       eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/json.omp.json)"
-#     else
-#       eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/night-owl.omp.json)"
-#     fi
-# }
-#
-# function on_terminal_resize() {
-#     # ターミナル幅の更新
-#     update_prompt_based_on_columns
-#     # プロンプトを即座にリセット
-#     zle reset-prompt
-# }
-#
-# # TRAPWINCHでリサイズ時に関数を呼び出す
-# TRAPWINCH() {
-#     on_terminal_resize
-# }
-#
-# # 初回プロンプトの設定
-# update_prompt_based_on_columns
 less_with_unbuffer () {
     unbuffer "$@" |& less -SR
 }
 alias ul=less_with_unbuffer
 
-# TMUXセッション内でのみ環境変数を設定
-# if [[ -n $TMUX ]]; then
-  # export FZF_TMUX=1
-  # export FZF_TMUX_OPTS="-p 80%"
-# fi
+export XDG_RUNTIME_DIR=/home/yasuc/.tmp
 
-
+export https_proxy=""
+export HTTPS_PROXY=""
+unset https_proxy
+unset HTTPS_PROXY
 
 # BEGIN opam configuration
-# This is useful if you're using opam as it adds:
-#   - the correct directories to the PATH
-#   - auto-completion for the opam binary
-# This section can be safely removed at any time if needed.
 [[ ! -r '/Users/yasuc/.opam/opam-init/init.zsh' ]] || source '/Users/yasuc/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
-# END opam configuration
+[[ ! -r /home/yasuc/.opam/opam-init/init.zsh ]] || source /home/yasuc/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+# Add .NET Core SDK tools
+export PATH="/home/yasuc/anaconda3/bin:$PATH:/home/yasuc/.dotnet/tools"
 
 # bindkey
 bindkey '^P' history-beginning-search-backward-end
@@ -440,6 +404,7 @@ bindkey '^N' history-beginning-search-forward-end
 # Added by Antigravity
 export PATH="/Users/yasuc/.antigravity/antigravity/bin:$PATH"
 
+eval "$(uv generate-shell-completion zsh)"
 source <(jj util completion zsh)
 
 source ~/.secret

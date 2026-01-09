@@ -75,3 +75,4 @@ set history expansion on
 #layout asm
 #layout regs
 
+source /home/yasuc/pwndbg/gdbinit.py

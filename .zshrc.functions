@@ -123,9 +123,9 @@ function setproxy() {
     fi
 }
 
-function proxy() {
-    setproxy
-}
+#function proxy() {
+#    setproxy
+#}
 
 function sproxy() {
     setproxy "proxy.okinawa-ct.ac.jp:8080"
@@ -265,3 +265,8 @@ local src=$(ghq list | fzf --preview "ls --color -lahF --time-style=+%Y-%m-%d\ %
 }
 zle -N ghq-fzf
 bindkey '^g' ghq-fzf
+
+
+function dpkg-list {
+    dpkg --get-selections | awk '{print $1}' | fzf --preview 'dpkg -L {}' --reverse --border --bind alt-p:preview-up,alt-n:preview-down
+}
