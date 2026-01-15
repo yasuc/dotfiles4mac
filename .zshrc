@@ -377,8 +377,6 @@ less_with_unbuffer () {
 }
 alias ul=less_with_unbuffer
 
-export XDG_RUNTIME_DIR=/home/yasuc/.tmp
-
 export https_proxy=""
 export HTTPS_PROXY=""
 unset https_proxy

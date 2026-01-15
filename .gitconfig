@@ -1,27 +1,28 @@
 [user]
 	name = IHA Yasushi
 	email = yasuc18@gmail.com
+
 [color]
-	# colorの設定(以下のコマンドは自動で色つける)
 	status = auto
 	diff = auto
 	branch = auto
 	interactive = auto
 	grep = auto
 	ui = auto
+
 [push]
-	default = tracking       # defaultのpush先はtrackingしているリポジトリ
+	default = tracking
+
 [core]
-#	excludesfile = /Users/yasuc/.gitignore_global
-#  autocrlf = input                 # CRLFを自動変換
 	autocrlf = false
 	editor = vim
 	quotepath = false
 	excludesfile = /Users/yasuc/.gitignore_global
   pager = delta
+
 [merge]
-#	tool = vimdiff
   conflictstyle = diff3
+
 [alias]
 	st = status
 	sh = show
@@ -50,7 +51,6 @@
 	wc = whatchanged         # logに変更されたファイルも一緒に出す
 	ls = log --stat          # logに変更されたファイルも一緒に出す
 	lp = log -p              # diffも一緒に出す
-	la = log --pretty=\"format:%ad %h (%an): %s\" --date=short  # ざっくりログ出す
 	lr = log origin          # originのlog
 	lg1 = log --graph --oneline
 	oneline = log --pretty=oneline
@@ -100,42 +100,49 @@
 
 	chpk = cherry-pick # チンピク
 
-
 [tig "bind"]
 	generic = g move-first-line
 	generic = G move-last-line
 	generic = <Ctrl-f> move-page-down
 	generic = <Ctrl-b> move-page-up
+
 [github]
 	user = yasuc
 	token = eef83a46e6db13950a46c734f97167a2
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+
 [mergetool "sourcetree"]
 #	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+
 [init]
 	defaultBranch = main
+
 [diff "xlsx"]
 	binary = true
 	textconv = git-xlsx-textconv
+
 [diff "openxml"]
 	binary = true
 	textconv = ~/bin/unopenxml
+
 [gitflow "branch"]
 	master = main
+
 [pull]
 	rebase = false
+
 [pager]
 	reflog = false
-	log = false
+	; log = false
   diff = false
   blame = false
+
 [interactive]
     diffFilter = delta --color-only
+
 [delta]
     navigate = true    # use n and N to move between diff sections
     side-by-side = true
+
 [diff]
   colorMoved = default
