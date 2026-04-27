@@ -36,5 +36,6 @@ github = "chrissicool/zsh-256color"
 [plugins.zsh-async]
 github = "mafredri/zsh-async"
 
+
 #[plugins.enhancd]
 #github = "b4b4r07/enhancd"

@@ -39,7 +39,6 @@ fi
 ## Backspace key
 #
 bindkey "^?" backward-delete-char
-
 #
 # Color
 #
@@ -108,7 +107,6 @@ autoload predict-on
 
 ## Command Line Stack [Esc]-[q]
 bindkey -a 'q' push-line
-
 
 ## Alias configuration
 #
@@ -297,6 +295,7 @@ eval "$(sheldon source)"
 autoload -U compinit
 compinit -u
 
+
 eval "$(sheldon source)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -406,3 +405,6 @@ eval "$(uv generate-shell-completion zsh)"
 source <(jj util completion zsh)
 
 source ~/.secret
+
+# smolvm
+export PATH="/Users/yasuc/.local/bin:$PATH"
